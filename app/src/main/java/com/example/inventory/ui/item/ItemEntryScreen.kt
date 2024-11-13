@@ -50,6 +50,24 @@ import kotlinx.coroutines.launch
 import java.util.Currency
 import java.util.Locale
 
+/*
+ * File ini mendefinisikan UI untuk layar entri item menggunakan Jetpack Compose.
+ * Layar ini digunakan untuk memasukkan detail item baru, termasuk nama, harga, dan jumlah item.
+ * UI ini terdiri dari beberapa komponen utama, yaitu:
+ *
+ * 1. ItemEntryDestination: Objek navigasi yang mendefinisikan rute dan judul layar.
+ * 2. ItemEntryScreen: Fungsi composable utama yang menampilkan layar entri item,
+ *    termasuk AppBar (bilah aplikasi di bagian atas) dan form entri.
+ * 3. ItemEntryBody: Fungsi yang membuat form entri dengan beberapa input field
+ *    (nama item, harga, dan jumlah) dan tombol "Simpan".
+ * 4. ItemInputForm: Komponen input form yang terdiri dari OutlinedTextField untuk
+ *    setiap detail item yang diperlukan. Input ini mencakup nama, harga, dan jumlah item.
+ *
+ * Setiap komponen menggunakan Material3 Theme untuk memastikan konsistensi UI dengan
+ * tema aplikasi. Selain itu, fungsi ItemEntryScreen juga memiliki mekanisme coroutine
+ * untuk menangani penyimpanan data secara asinkron dan navigasi balik.
+ *
+ */
 object ItemEntryDestination : NavigationDestination {
     override val route = "item_entry"
     override val titleRes = R.string.item_entry_title

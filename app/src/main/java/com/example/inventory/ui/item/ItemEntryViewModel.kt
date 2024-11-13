@@ -26,25 +26,37 @@ import java.text.NumberFormat
 
 /**
  * ViewModel to validate and insert items in the Room database.
+ *
+ * ItemEntryViewModel - ViewModel yang bertugas untuk validasi dan penyimpanan data item ke database Room. ViewModel ini menyimpan dan memperbarui status UI terkait item.
+ * @property itemsRepository Repository yang bertanggung jawab mengelola data item.
+ *
  */
 class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewModel() {
 
 
     /**
-     * Holds current item ui state
+     * Menyimpan status UI item saat ini (itemUiState), yang berisi detail item dan validitas entri. State ini hanya dapat diubah oleh ViewModel.
      */
     var itemUiState by mutableStateOf(ItemUiState())
         private set
 
     /**
-     * Updates the [itemUiState] with the value provided in the argument. This method also triggers
-     * a validation for input values.
+     * Memperbarui itemUiState dengan nilai itemDetails yang diterima sebagai argumen.
+     * Metode ini juga memvalidasi input item untuk memastikan data yang dimasukkan valid.
+     *
+     * @param itemDetails Objek berisi data item yang akan diperbarui pada state UI.
      */
     fun updateUiState(itemDetails: ItemDetails) {
         itemUiState =
             ItemUiState(itemDetails = itemDetails, isEntryValid = validateInput(itemDetails))
     }
-
+    /**
+     * Memvalidasi input dari itemDetails. Mengecek apakah nama, harga, dan jumlah
+     * tidak kosong atau tidak valid.
+     *
+     * @param uiState Data detail item yang akan divalidasi. Nilai defaultnya adalah itemDetails dari itemUiState.
+     * @return Boolean yang menunjukkan apakah input valid.
+     */
     private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank()
@@ -89,7 +101,10 @@ fun Item.formatedPrice(): String {
 }
 
 /**
- * Extension function to convert [Item] to [ItemUiState]
+ * Ekstensi untuk mengonversi Item menjadi ItemUiState. Berguna untuk menampilkan data item
+ * di layar dengan status validasi entri.
+ *
+ * @param isEntryValid Menentukan apakah entri dianggap valid dalam konversi ini.
  */
 fun Item.toItemUiState(isEntryValid: Boolean = false): ItemUiState = ItemUiState(
     itemDetails = this.toItemDetails(),
@@ -97,7 +112,8 @@ fun Item.toItemUiState(isEntryValid: Boolean = false): ItemUiState = ItemUiState
 )
 
 /**
- * Extension function to convert [Item] to [ItemDetails]
+ * Ekstensi untuk mengonversi Item menjadi ItemDetails, memetakan data dari format database
+ * ke format UI yang siap untuk ditampilkan atau dimodifikasi di layar.
  */
 fun Item.toItemDetails(): ItemDetails = ItemDetails(
     id = id,
